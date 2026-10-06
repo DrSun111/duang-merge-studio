@@ -1,9 +1,9 @@
-import {GameConfig} from './game-config';
+import {GameConfig,assetUrl} from './game-config';
 type Ball={x:number;y:number;vx:number;vy:number;r:number;t:number;birth:number;sq:number;sv:number;angle:number;age:number};
 type FX={x:number;y:number;t:number;age:number;kind:string;seed:number};
 export class MergeEngine{
  c:CanvasRenderingContext2D; balls:Ball[]=[]; fx:FX[]=[]; images:HTMLImageElement[]=[];score=0;aim=210;next=0;over=false;paused=false;sound=true;lastDrop=-10;time=0;danger=0;destroyed=false;raf=0;audio?:AudioContext; accumulator=0;last=0;
- constructor(public canvas:HTMLCanvasElement,public config:GameConfig,public onState:(score:number,next:number,over:boolean,danger:number)=>void){this.c=canvas.getContext('2d')!;canvas.width=840;canvas.height=1400;this.config.tiers.forEach(t=>{const im=new Image();im.src=t.image;this.images.push(im)});this.pick();this.loop=this.loop.bind(this);this.raf=requestAnimationFrame(this.loop)}
+ constructor(public canvas:HTMLCanvasElement,public config:GameConfig,public onState:(score:number,next:number,over:boolean,danger:number)=>void){this.c=canvas.getContext('2d')!;canvas.width=840;canvas.height=1400;this.config.tiers.forEach(t=>{const im=new Image();im.src=assetUrl(t.image);this.images.push(im)});this.pick();this.loop=this.loop.bind(this);this.raf=requestAnimationFrame(this.loop)}
  pick(){this.next=Math.floor(Math.random()*Math.min(3,this.config.tiers.length-1));this.onState(this.score,this.next,this.over,this.danger)}
  add(x:number,y:number,t:number){const b={x,y,vx:0,vy:0,r:this.config.tiers[t].radius,t,birth:this.time,sq:0,sv:0,angle:0,age:0};this.balls.push(b);return b}
  drop(){if(this.over||this.paused||this.time-this.lastDrop<.35)return;this.lastDrop=this.time;const r=this.config.tiers[this.next].radius;this.add(Math.max(r+10,Math.min(410-r,this.aim)),68,this.next);this.pick()}

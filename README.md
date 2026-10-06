@@ -22,6 +22,8 @@
 
 ## GitHub Pages 公网版本
 
-Pages 从 main 分支的 docs 目录发布游戏。浏览器直接运行合成物理与动画；仅在加载配置时访问云端后台，上传与管理在云端后台完成。后台地址：https://duang-merge-studio.kasun11.chatgpt.site/?admin=1 。
+Pages 从 main 分支的 docs 目录发布游戏。浏览器直接运行合成物理与动画；仅在加载配置时访问云端后台，上传与管理界面在 GitHub Pages 当前页面完成，数据保存和密码校验使用云端 API。后台地址：https://drsun111.github.io/duang-merge-studio/?admin=1 。
 
 前端构建：`pnpm build:pages`（输出 github-pages）；发布时复制输出到 docs。源码与构建产物均保存在本仓库，管理密码仅在云端运行环境保存。
+
+玩家页面不展示合成图鉴。管理员在 GitHub Pages 页面内登录、换图和保存，页面不跳转。跨域管理使用仅限指定 GitHub Origin 的 CORS 和内存会话令牌；密码仅在云端校验，不写入公开前端。刷新后需要重新登录。
